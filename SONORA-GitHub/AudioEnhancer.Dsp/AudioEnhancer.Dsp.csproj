@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--
+      Plain net8.0, NOT net8.0-windows: the DSP has no dependency on WPF, on any
+      audio API, or on Windows at all. That is what lets the test project run it
+      headlessly, and it keeps the "DSP independent from the UI" rule enforced by
+      the compiler rather than by discipline.
+    -->
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>AudioEnhancer</RootNamespace>
+  </PropertyGroup>
+
+</Project>

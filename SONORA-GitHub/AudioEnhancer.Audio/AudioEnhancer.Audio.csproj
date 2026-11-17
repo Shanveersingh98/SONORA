@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--
+      net8.0-windows, but NOT UseWPF. This library talks to Windows Core Audio, so it
+      genuinely is Windows-only - unlike AudioEnhancer.Dsp, which stays plain net8.0.
+      Keeping WPF out means the backend cannot accidentally reach for a Dispatcher or
+      a MessageBox from an audio callback.
+    -->
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>false</UseWPF>
+    <UseWindowsForms>false</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>AudioEnhancer.Audio</RootNamespace>
+    <!-- COM interop needs the runtime marshaller, so trimming/AOT stay off here. -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <!--
+      Part 2C: WASAPI hands us raw buffer pointers. Wrapping them in a Span instead of
+      copying through a managed array saves a memcpy on the audio thread, and that
+      needs one unsafe expression in WasapiAudioStream.
+    -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- EnhancerSettings and IDspEngine live here. Zero NuGet packages, as in Part 2A. -->
+    <ProjectReference Include="..\AudioEnhancer.Dsp\AudioEnhancer.Dsp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="AudioEnhancer.Audio.Tests" />
+    <InternalsVisibleTo Include="AudioEnhancer.DeviceProbe" />
+    <InternalsVisibleTo Include="AudioEnhancer" />
+    <InternalsVisibleTo Include="LoopbackTest" />
+    <InternalsVisibleTo Include="ToneGenerator" />
+  </ItemGroup>
+
+</Project>

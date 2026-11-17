@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!--
+      net8.0-windows, unlike the DSP tests: these exercise the real Core Audio
+      device enumerator. The hardware-dependent tests skip rather than fail if the
+      machine has no playback device, so the run is still meaningful on a build agent.
+    -->
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>false</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>AudioEnhancer.Audio.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\AudioEnhancer.Audio\AudioEnhancer.Audio.csproj" />
+    <ProjectReference Include="..\..\..\AudioEnhancer.Dsp\AudioEnhancer.Dsp.csproj" />
+  </ItemGroup>
+
+</Project>

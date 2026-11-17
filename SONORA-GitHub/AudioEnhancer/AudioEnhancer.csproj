@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>AudioEnhancer</RootNamespace>
+    <AssemblyName>Sonora</AssemblyName>
+    <Product>Sonora Audio Enhancer</Product>
+    <AssemblyTitle>Sonora</AssemblyTitle>
+    <Company>Shanveer</Company>
+    <Authors>Shanveer</Authors>
+    <Description>Sonora Precision Audio Mastering Suite by Shanveer</Description>
+    <Copyright>Copyright © 2026 Shanveer. All rights reserved.</Copyright>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The test project lives in /tests and must not be compiled into the app. -->
+    <Compile Remove="tests/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The DSP engine, the IDsp* contracts and EnhancerSettings now live in a separate
+      net8.0 library so they can be unit-tested without WPF. Their namespaces are
+      unchanged (AudioEnhancer.Dsp / AudioEnhancer.Core), so no UI file needed editing.
+    -->
+    <ProjectReference Include="..\AudioEnhancer.Dsp\AudioEnhancer.Dsp.csproj" />
+
+    <!--
+      Part 2B: the audio contracts that used to sit in src\audio moved into their own
+      net8.0-windows library, exactly as the DSP did in Part 2A. Namespaces are
+      unchanged (AudioEnhancer.Audio), so no using directive in the UI needed editing.
+    -->
+    <ProjectReference Include="..\AudioEnhancer.Audio\AudioEnhancer.Audio.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The WPF SDK only auto-detects App.xaml as the ApplicationDefinition when it sits in the
+      project root. Ours is in src\, so it was being compiled as a plain Page and no static Main()
+      was generated (CS5001). Declare it explicitly and stop it from also being treated as a Page.
+    -->
+    <Page Remove="src\App.xaml" />
+    <ApplicationDefinition Include="src\App.xaml" />
+  </ItemGroup>
+
+</Project>

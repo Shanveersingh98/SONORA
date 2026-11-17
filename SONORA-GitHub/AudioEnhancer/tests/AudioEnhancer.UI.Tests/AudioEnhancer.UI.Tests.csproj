@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!--
+      Part 4 Step 6: MainViewModel lives in the WPF project and touches
+      System.Windows.Application, so this needs UseWPF, exactly like AudioEnhancer.csproj
+      itself. No hardware and no window is ever created here - the WPF reference is only
+      to satisfy the assembly's own dependency, same reasoning as Audio.Tests needing
+      net8.0-windows to reach the Core Audio types it tests.
+    -->
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>AudioEnhancer.UI.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\AudioEnhancer.csproj" />
+    <ProjectReference Include="..\..\..\AudioEnhancer.Audio\AudioEnhancer.Audio.csproj" />
+    <ProjectReference Include="..\..\..\AudioEnhancer.Dsp\AudioEnhancer.Dsp.csproj" />
+  </ItemGroup>
+
+</Project>
